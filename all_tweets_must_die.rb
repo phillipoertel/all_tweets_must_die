@@ -16,6 +16,5 @@ my_tweets = RTwitter::Status.new(:user => @login[:user], :password => @login[:pa
 my_tweets.each do |tweet|
   next if tweet_should_live?(tweet)
   url = "http://%s:%s@twitter.com/statuses/destroy/%d.xml" % [@login[:user], @login[:password], tweet['id']]
-  p url
-  #RestClient.delete(url)
+  RestClient.delete(url)
 end
