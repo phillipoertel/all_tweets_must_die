@@ -1,1 +1,1 @@
-*/5 * * * * cd /path/to/all_tweets_must_die/ && ruby -I/path/to/rubygems.rb all_tweets_must_die.rb &> /tmp/tweets.log
+*/5 * * * * cd /path/to/all_tweets_must_die && ruby -I/path/to/rubygems.rb all_tweets_must_die.rb &> /tmp/tweets.log
