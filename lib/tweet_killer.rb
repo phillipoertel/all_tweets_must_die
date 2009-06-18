@@ -1,5 +1,4 @@
-require "rubygems"
-require 'rest_client'
+require 'rubygems'
 require 'rest_client'
 require 'json'
 require 'time'
