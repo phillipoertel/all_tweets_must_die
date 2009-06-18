@@ -1,17 +1,23 @@
 require "rubygems"
 require 'rest_client'
 require 'time'
-require '../lib/rtwitter'
-require '../login'
+
+require File.join(File.dirname(__FILE__), 'rtwitter')
+require File.join(File.dirname(__FILE__), 'argument_validator')
+
+require File.join(File.dirname(__FILE__), '../login')
 
 #
 # appropriate soundtracks: Miss Kittin -- Rippin Kittin; Kill Bill Vol. 1 & 2
 #
 class TweetKiller
+
+  include ArgumentValidator
   
   attr_reader :default_tweet_lifetime, :username, :password
   
   def initialize(options = {})
+    validate_args!([:lifetime, :username, :password], options)
     @default_tweet_lifetime = options[:lifetime] || 12 # maximum allowed age in hours
     @username = options[:username]
     @password = options[:password]

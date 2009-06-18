@@ -2,7 +2,7 @@ require 'rubygems'
 require 'rest_client'
 require 'json'
 
-require 'lib/argument_validator'
+require File.join(File.dirname(__FILE__), 'argument_validator')
 
 module RTwitter
   class Status
@@ -10,11 +10,10 @@ module RTwitter
     include ArgumentValidator
     
     def initialize(args = {})
-      validate_args!(VALID_INITIALIZE_ARGS, args)
+      validate_args!([:user, :password], args)
       @user = args[:user]
       @password = args[:password]
     end
-    VALID_INITIALIZE_ARGS = [:user, :password]
     
     def user_timeline(user_name = @user)
       auth_string = (@user && @password) ? "#{@user}:#{@password}@" : ''

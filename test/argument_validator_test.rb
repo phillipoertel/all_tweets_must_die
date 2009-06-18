@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'minitest/unit'
 
-require '../lib/argument_validator'
+require File.join(File.dirname(__FILE__), '../lib/argument_validator')
 
 MiniTest::Unit.autorun
 Test = MiniTest # minitest is API compatible

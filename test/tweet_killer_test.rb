@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'minitest/unit'
 
-require '../lib/tweet_killer'
+require File.join(File.dirname(__FILE__), '../lib/tweet_killer')
 
 MiniTest::Unit.autorun
 Test = MiniTest # minitest is API compatible
