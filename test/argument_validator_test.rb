@@ -11,7 +11,7 @@ class MyClass
   
   include ArgumentValidator
   
-  def foo(args)
+  def foo(args = {})
     validate_args!([:foo, :bar], args)
     "NOTHING RAISED"
   end
@@ -19,6 +19,10 @@ end
 
 
 class ArgumentValidatorTest < Test::Unit::TestCase
+  
+  def test_with_zero_args
+    assert_equal "NOTHING RAISED", MyClass.new.foo
+  end
   
   def test_with_one_valid_arg
     assert_equal "NOTHING RAISED", MyClass.new.foo(:foo => 1)
