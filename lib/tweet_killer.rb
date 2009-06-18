@@ -1,8 +1,9 @@
 require "rubygems"
 require 'rest_client'
+require 'rest_client'
+require 'json'
 require 'time'
 
-require File.join(File.dirname(__FILE__), 'rtwitter')
 require File.join(File.dirname(__FILE__), 'argument_validator')
 
 require File.join(File.dirname(__FILE__), '../login')
@@ -24,8 +25,7 @@ class TweetKiller
   end
   
   def run!
-    tweets = RTwitter::Status.new(:user => @username, :password => @password).user_timeline
-    tweets.each do |tweet|
+    user_timeline.each do |tweet|
       next if tweet_should_live?(tweet)
       url = "http://%s:%s@twitter.com/statuses/destroy/%d.xml" % [@username, @password, tweet['id']]
       RestClient.delete(url)
@@ -40,5 +40,11 @@ class TweetKiller
       current_age = (Time.now.utc - Time.parse(tweet['created_at']))
       maximum_age = (hours_to_live * 60 * 60)
       current_age <= maximum_age
+    end
+
+    def user_timeline
+      auth_string = (@username && @password) ? "#{@username}:#{@password}@" : ''
+      response = RestClient.get("http://%stwitter.com/statuses/user_timeline/%s.json" % [auth_string, @username])
+      JSON.parse(response)
     end
 end
