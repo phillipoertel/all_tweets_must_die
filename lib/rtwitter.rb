@@ -2,8 +2,12 @@ require 'rubygems'
 require 'rest_client'
 require 'json'
 
+require 'lib/argument_validator'
+
 module RTwitter
   class Status
+    
+    include ArgumentValidator
     
     def initialize(args = {})
       validate_args!(VALID_INITIALIZE_ARGS, args)
@@ -18,11 +22,5 @@ module RTwitter
       JSON.parse(response)
     end
     
-    private 
-    
-      # fail early, don't swallow unknown arguments
-      def validate_args!(valid_args, actual_args)
-        raise ArgumentError unless actual_args.keys.all? { |arg| valid_args.include?(arg) }
-      end
   end
 end
