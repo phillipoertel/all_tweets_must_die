@@ -22,12 +22,30 @@ class InitializationTest < Test::Unit::TestCase
   end
 end
 
+
 class RunTest < Test::Unit::TestCase
 
   include AllTweetsMustDie
-
-  def test_should_format_the_http_auth_string_correctly
-    killer = Hitman.new(:username => 'phil76', :password => 'foo')
-    assert_equal 'phil76:foo@', killer.send(:http_auth_string)
+  include TweetFixtureProvider
+  
+  def test_request_the_correct_users_timeline_when_updates_are_public
+    url = "http://noradio:foo@twitter.com/statuses/user_timeline/noradio.json"
+    RestClient.expects(:get).with(url).returns("{}")
+    Hitman.new(:username => 'noradio', :password => 'foo').run!
+  end
+  
+  def test_request_the_correct_users_timeline_when_updates_are_protected
+    url = "http://twitter.com/statuses/user_timeline/noradio.json"
+    RestClient.expects(:get).with(url).returns("{}")
+    Hitman.new(:username => 'noradio').run!
+  end
+  
+  # TODO decouple from implementation and make more specific
+  def test_should_kill_tweets_older_than_allowed
+    # fix the current time so we can operate on the canned tweets in the fixture
+    Time.stubs(:now).returns(Time.parse("Fri Jun 19 14:23:07 +0200 2009"))
+    RestClient.stubs(:get).returns(noradios_tweets_as_json)
+    Tweet.any_instance.expects(:kill!).times(19) # 20 tweets in fixture. all but the latest tweets are older than 12h.
+    Hitman.new(:username => 'noradio').run!
   end
 end

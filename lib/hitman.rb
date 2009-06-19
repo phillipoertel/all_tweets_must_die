@@ -23,20 +23,17 @@ module AllTweetsMustDie
     
     def run!
       fetch_victim_tweets.each do |tweet|
-        tweet.kill! unless tweet.should_live?(@default_tweet_lifetime)
+        tweet.kill!(@password) unless tweet.should_live?(@default_tweet_lifetime)
       end
     end
     
     private
     
       def fetch_victim_tweets
-        auth = (@username && @password) ? http_auth_string : ''
-        response = RestClient.get("http://%stwitter.com/statuses/user_timeline/%s.json" % [auth, @username])
+        auth = @password ? "#{@username}:#{@password}@" : ''
+        url = "http://%stwitter.com/statuses/user_timeline/%s.json" % [auth, @username]
+        response = RestClient.get(url)
         JSON.parse(response).map { |tweet_data| Tweet.new(tweet_data) }
-      end
-    
-      def http_auth_string
-        "#{@username}:#{@password}@"
       end
       
   end
