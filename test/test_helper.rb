@@ -4,3 +4,4 @@ require 'mocha'
 require 'redgreen' unless ENV['TM_FILENAME']
 
 require 'rest_client'
+require 'json'

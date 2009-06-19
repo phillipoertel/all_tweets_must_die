@@ -1,7 +1,6 @@
 require 'rubygems'
 require 'rest_client'
 require 'json'
-require 'time'
 
 require File.join(File.dirname(__FILE__), 'argument_validator')
 

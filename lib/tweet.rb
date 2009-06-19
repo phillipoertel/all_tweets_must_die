@@ -1,5 +1,4 @@
 require 'rest_client'
-require 'json'
 require 'time'
 
 module AllTweetsMustDie
@@ -17,7 +16,8 @@ module AllTweetsMustDie
     end
     
     def should_live?(default_lifetime)
-      hours_to_live = @data['text'].match(/#keep(\d+)h$/)[1].to_i rescue default_lifetime
+      keep_hashtag = @data['text'].match(/#keep(\d+)h$/)
+      hours_to_live = keep_hashtag ? keep_hashtag[1].to_i : default_lifetime
       current_age = Time.now.utc - @data['created_at']
       maximum_age = (hours_to_live * 60 * 60)
       current_age <= maximum_age
