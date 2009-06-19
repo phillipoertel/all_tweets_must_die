@@ -1,4 +1,5 @@
-module ArgumentValidator
+module AllTweetsMustDie
+  module ArgumentValidator
     
     private
     
@@ -15,5 +16,5 @@ module ArgumentValidator
       def format_args(args)
         args.sort { |a1, a2| a1.to_s <=> a2.to_s }.map { |a| %("#{a}") }.join(', ')
       end
-    
+  end 
 end

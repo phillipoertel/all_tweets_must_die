@@ -12,6 +12,7 @@ end
 
 class ShouldLiveTest < Test::Unit::TestCase
 
+  include AllTweetsMustDie
   include TweetTestHelper
   
   def test_should_live_if_tweet_is_6h_old_and_default_lifetime_is_12h
@@ -43,6 +44,7 @@ end
 
 class KillTest < Test::Unit::TestCase
 
+  include AllTweetsMustDie
   include TweetTestHelper
 
   def test_should_call_the_correct_url

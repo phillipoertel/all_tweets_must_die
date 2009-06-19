@@ -1,6 +1,7 @@
 require 'rubygems'
 
 require 'login'
-require 'lib/tweet_killer'
+Dir.glob('lib/*.rb').each { |file| require file }
 
-TweetKiller.new(:username => @login[:user], :password => @login[:password]).run!
+hitman = AllTweetsMustDie::Hitman.new(:username => @login[:user], :password => @login[:password])
+hitman.run!

@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), '../lib/argument_validator')
 
 class MyClass
   
-  include ArgumentValidator
+  include AllTweetsMustDie::ArgumentValidator
   
   def foo(args = {})
     validate_args!([:foo, :bar], args)
