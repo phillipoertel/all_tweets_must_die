@@ -1,10 +1,5 @@
-require 'rubygems'
-require 'minitest/unit'
-
+require File.join(File.dirname(__FILE__), '../test/test_helper')
 require File.join(File.dirname(__FILE__), '../lib/tweet_killer')
-
-MiniTest::Unit.autorun
-Test = MiniTest # minitest is API compatible
 
 class InitializationTest < Test::Unit::TestCase
   def test_should_initialize_tweet_lifetime_to_12h_if_none_given

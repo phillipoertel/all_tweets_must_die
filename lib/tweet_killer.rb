@@ -5,8 +5,6 @@ require 'time'
 
 require File.join(File.dirname(__FILE__), 'argument_validator')
 
-require File.join(File.dirname(__FILE__), '../login')
-
 #
 # appropriate soundtracks: Miss Kittin -- Rippin Kittin; Kill Bill Vol. 1 & 2
 #
