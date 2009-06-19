@@ -31,7 +31,6 @@ class TweetKiller
   private
   
     def user_timeline
-      puts "fetching timeline"
       auth_string = (@username && @password) ? http_auth_string : ''
       response = RestClient.get("http://%stwitter.com/statuses/user_timeline/%s.json" % [auth, @username])
       JSON.parse(response)

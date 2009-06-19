@@ -12,7 +12,6 @@ class Tweet
   def kill!(password)
     http_auth_string = "#{@data['user']['screen_name']}:#{password}@"
     url = "http://%stwitter.com/statuses/destroy/%d.xml" % [http_auth_string, @data['id']]
-    p url
     RestClient.delete(url)
   end
   
