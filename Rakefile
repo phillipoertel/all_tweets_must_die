@@ -1,5 +1,16 @@
 require 'rake/testtask'
 
+# for gem packaging etc. see http://github.com/technicalpickles/jeweler
+require 'jeweler'
+Jeweler::Tasks.new do |gemspec|
+  gemspec.name = "all_tweets_must_die"
+  gemspec.summary = "Deletes all your tweets older than a certain age"
+  gemspec.email = "me AT phillipoertel DOHT com"
+  gemspec.homepage = "https://github.com/phillipoertel/all_tweets_must_die"
+  gemspec.description = "Deletes all your tweets older than a certain age"
+  gemspec.authors = ["Phillip Oertel"]
+end
+
 task :default => [:test]
 
 Rake::TestTask.new(:test) do |t|
