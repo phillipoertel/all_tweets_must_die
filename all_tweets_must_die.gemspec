@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
      "README",
      "Rakefile",
      "VERSION.yml",
+     "all_tweets_must_die.gemspec",
      "examples/crontab",
      "lib/argument_validator.rb",
      "lib/hitman.rb",
