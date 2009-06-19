@@ -19,13 +19,13 @@ class ShouldLiveTest < Test::Unit::TestCase
   end
   
   def test_should_live_if_tweet_is_20h_old_and_has_hashtag_with_keep24h
-    data = valid_tweet_data('created_at' => (Time.now - (6 * (60 * 60))).to_s, 'text' => 'Hello World #keep24h')
+    data = valid_tweet_data('created_at' => (Time.now - (20 * (60 * 60))).to_s, 'text' => 'Hello World #keep24h')
     default_lifetime = 12
     assert_equal true, Tweet.new(data).should_live?(default_lifetime)
   end
   
-  def test_should_die_if_tweet_is_20h_old_and_has_hashtag_with_keep6h
-    data = valid_tweet_data('created_at' => (Time.now - (6 * (60 * 60))).to_s, 'text' => 'Hello World #keep6h')
+  def test_should_die_if_tweet_is_8h_old_and_has_hashtag_with_keep6h
+    data = valid_tweet_data('created_at' => (Time.now - (8 * (60 * 60))).to_s, 'text' => 'Hello World #keep6h')
     default_lifetime = 12
     assert_equal false, Tweet.new(data).should_live?(default_lifetime)
   end
