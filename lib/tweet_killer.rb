@@ -22,26 +22,23 @@ class TweetKiller
   end
   
   def run!
-    user_timeline.each do |tweet|
-      next if tweet_should_live?(tweet)
-      url = "http://%s:%s@twitter.com/statuses/destroy/%d.xml" % [@username, @password, tweet['id']]
-      RestClient.delete(url)
+    user_timeline.each do |tweet_data|
+      tweet = Tweet.new(tweet_data)
+      tweet.kill! unless tweet.should_live?(@default_tweet_lifetime)
     end
   end
   
   private
   
-    # TODO write Tweet class and move this and the delete there.
-    def tweet_should_live?(tweet)
-      hours_to_live = tweet['text'].match(/#keep(\d+)h$/)[1].to_i rescue @default_tweet_lifetime
-      current_age = (Time.now.utc - Time.parse(tweet['created_at']))
-      maximum_age = (hours_to_live * 60 * 60)
-      current_age <= maximum_age
-    end
-
     def user_timeline
-      auth_string = (@username && @password) ? "#{@username}:#{@password}@" : ''
-      response = RestClient.get("http://%stwitter.com/statuses/user_timeline/%s.json" % [auth_string, @username])
+      puts "fetching timeline"
+      auth_string = (@username && @password) ? http_auth_string : ''
+      response = RestClient.get("http://%stwitter.com/statuses/user_timeline/%s.json" % [auth, @username])
       JSON.parse(response)
     end
+  
+    def http_auth_string
+      "#{@username}:#{@password}@"
+    end
+    
 end

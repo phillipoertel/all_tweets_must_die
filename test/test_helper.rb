@@ -1,5 +1,8 @@
 require 'rubygems'
-require 'minitest/unit'
+require 'test/unit'
+require 'mocha'
 
-MiniTest::Unit.autorun
-Test = MiniTest # minitest is API compatible
+require 'rest_client'
+
+#MiniTest::Unit.autorun
+#Test = MiniTest # minitest is API compatible
