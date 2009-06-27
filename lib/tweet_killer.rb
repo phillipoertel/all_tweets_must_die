@@ -19,7 +19,9 @@ module AllTweetsMustDie
     
     # the external interface
     def handle_tweet!(tweet)
-      tweet.kill!(@password) unless tweet_should_live?(tweet, @default_lifetime)
+      should_live = tweet_should_live?(tweet, @default_lifetime)
+      tweet.kill!(@password) unless should_live
+      puts "tweet #{tweet.text[0, 20]}... should live? #{should_live}" if (ENV['VERBOSE'])
     end
       
     def tweet_should_live?(tweet, default_lifetime)

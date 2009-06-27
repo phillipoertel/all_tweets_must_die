@@ -52,7 +52,7 @@ class AddHandlerTest < Test::Unit::TestCase
   def test_should_add_tweet_handlers
     runner = Runner.new(:username => 'noradio')
     assert_equal 1, runner.handlers.size
-    runner.add_handler(stub(:handle_tweet! => true)) # at the moment, this could be anything, interface is not checked.
+    runner.add_handler(stub(:handle_tweet! => nil)) # at the moment, this could be anything, interface is not checked.
     assert_equal 2, runner.handlers.size
   end
 end
