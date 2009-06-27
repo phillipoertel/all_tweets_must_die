@@ -9,6 +9,5 @@ end
 
 # handles every tweet on the timeline
 @runner.handle_each do |tweet|
-  calc = lambda { |tweet| ((tweet.text.size.to_f/160) * 100).to_i }
-  puts "'#{tweet.text[0, 40]}...' uses #{calc.call(tweet)}% of available characters."
+  puts "%s... uses %s%% of available characters." % [tweet.text[0, 10], ((tweet.text.size.to_f/140) * 100).to_i]
 end

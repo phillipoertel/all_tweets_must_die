@@ -23,7 +23,7 @@ namespace :test do
 
   desc "run all tests test with coverage report generation"
   task :rcov do
-    sh "rcov test/*test.rb --sort=coverage"
+    sh "rcov test/*test.rb --sort=coverage && open coverage/index.html"
   end
 
 end
