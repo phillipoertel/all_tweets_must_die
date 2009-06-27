@@ -15,29 +15,14 @@ module AllTweetsMustDie
       RestClient.delete(url)
     end
     
-    def should_live?(default_lifetime)
-      hashtag = @data['text'].match(/#keep((\d+)h)?$/)
-      hashtag ? handle_with_hashtag(hashtag) : handle_without_hashtag(default_lifetime)
-    end
-    
     # in seconds
     def age
       Time.now.utc - @data['created_at']
     end
-    
-    private 
-    
-      # handles hashtags like "#keep" and "#keep24h"
-      def handle_with_hashtag(match)
-        return true if match[0] == "#keep"
-        maximum_age = (match[2].to_i * 60 * 60)
-        age <= maximum_age
-      end
-  
-      def handle_without_hashtag(default_lifetime)
-        maximum_age = (default_lifetime * 60 * 60)
-        age <= maximum_age
-      end
+
+    def text
+      @data['text']
+    end
     
   end
 end

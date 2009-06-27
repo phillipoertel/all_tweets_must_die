@@ -9,23 +9,29 @@ require File.join(File.dirname(__FILE__), 'tweet_killer')
 # appropriate soundtracks: Miss Kittin -- Rippin Kittin; Kill Bill Vol. 1 & 2
 #
 module AllTweetsMustDie
-  class Hitman
+  
+  # the Runner class loads the timeline of a given user
+  # and gives every tweet to every registered HashTagHandler
+  class Runner
   
     include ArgumentValidator
     
     attr_reader :default_lifetime, :username, :password
+    attr_accessor :handlers
     
     def initialize(options = {})
-      validate_args!([:default_lifetime, :username, :password], options)
+      validate_args!([:default_lifetime, :username, :password, :handlers], options)
       @default_lifetime = options[:default_lifetime] || 12 # maximum allowed age in hours
       @username = options[:username]
       @password = options[:password]
+      @handlers = options[:handlers] || [
+        TweetKiller.new(:username => @username, :default_lifetime => @default_lifetime, :password => @password)
+      ]
     end
     
     def run!
-      killer = TweetKiller.new(@default_lifetime, @password)
       fetch_tweets.each do |tweet|
-        killer.handle_tweet(tweet)
+        handlers.each { |h| h.handle_tweet!(tweet) }
       end
     end
     
