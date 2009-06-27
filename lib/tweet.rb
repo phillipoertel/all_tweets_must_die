@@ -34,8 +34,8 @@ module AllTweetsMustDie
         age <= maximum_age
       end
   
-      def handle_without_hashtag(lifetime)
-        maximum_age = (lifetime * 60 * 60)
+      def handle_without_hashtag(default_lifetime)
+        maximum_age = (default_lifetime * 60 * 60)
         age <= maximum_age
       end
     
