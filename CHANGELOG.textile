@@ -1,0 +1,7 @@
+h1. 2009-06-27 (Codename "Copenhagen")
+
+* added #keep hashtag that will let tweets live forever.
+
+h1. 0.1.0, 2009-06-19 
+
+* initial release

@@ -16,16 +16,28 @@ module AllTweetsMustDie
     end
     
     def should_live?(default_lifetime)
-      keep_hashtag = @data['text'].match(/#keep(\d+)h$/)
-      hours_to_live = keep_hashtag ? keep_hashtag[1].to_i : default_lifetime
-      maximum_age = (hours_to_live * 60 * 60)
-      age <= maximum_age
+      hashtag = @data['text'].match(/#keep((\d+)h)?$/)
+      hashtag.nil? ? handle_without_hashtag(default_lifetime) : handle_with_hashtag(hashtag)
     end
     
     # in seconds
     def age
       Time.now.utc - @data['created_at']
     end
+    
+    private 
+    
+      # handles hashtags like "#keep" and "#keep24h"
+      def handle_with_hashtag(match)
+        return true if match[0] == "#keep"
+        maximum_age = (match[2].to_i * 60 * 60)
+        age <= maximum_age
+      end
   
+      def handle_without_hashtag(lifetime)
+        maximum_age = (lifetime * 60 * 60)
+        age <= maximum_age
+      end
+    
   end
 end

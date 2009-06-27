@@ -29,3 +29,8 @@ task :run do
   hitman = AllTweetsMustDie::Hitman.new(:username => @login[:user], :password => @login[:password])
   hitman.run!
 end
+
+task :deploy do
+  require 'login'
+  sh "rsync -r --exclude-from=.gitignore . #{@rsync_upload_uri}"
+end
