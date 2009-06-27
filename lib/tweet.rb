@@ -17,7 +17,7 @@ module AllTweetsMustDie
     
     def should_live?(default_lifetime)
       hashtag = @data['text'].match(/#keep((\d+)h)?$/)
-      hashtag.nil? ? handle_without_hashtag(default_lifetime) : handle_with_hashtag(hashtag)
+      hashtag ? handle_with_hashtag(hashtag) : handle_without_hashtag(default_lifetime)
     end
     
     # in seconds
