@@ -48,6 +48,15 @@ class AddHandlerTest < Test::Unit::TestCase
     assert_equal TweetKiller, runner.handlers.first.class
     assert_equal 1, runner.handlers.size
   end
+  
+  def test_should_accept_different_handlers_on_init
+    some_handler = mock('Foo')
+    some_handler.expects(:handle_tweet!).times(20)
+    runner = Runner.new(:username => 'noradio', :handlers => [some_handler])
+    assert_equal Mocha::Mock, runner.handlers.first.class
+    assert_equal 1, runner.handlers.size
+    runner.run!
+  end
 
   def test_should_add_tweet_handlers
     runner = Runner.new(:username => 'noradio')
