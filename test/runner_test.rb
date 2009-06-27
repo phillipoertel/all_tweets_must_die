@@ -38,3 +38,21 @@ class RunTest < Test::Unit::TestCase
     Runner.new(:username => 'noradio').run!
   end
 end
+
+class AddHandlerTest < Test::Unit::TestCase
+  
+  include AllTweetsMustDie
+
+  def test_should_have_tweet_killer_as_default_handler
+    runner = Runner.new(:username => 'noradio')
+    assert_equal TweetKiller, runner.handlers.first.class
+    assert_equal 1, runner.handlers.size
+  end
+
+  def test_should_add_tweet_handlers
+    runner = Runner.new(:username => 'noradio')
+    assert_equal 1, runner.handlers.size
+    runner.add_handler(stub(:handle_tweet! => true)) # at the moment, this could be anything, interface is not checked.
+    assert_equal 2, runner.handlers.size
+  end
+end

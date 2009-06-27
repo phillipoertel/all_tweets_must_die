@@ -6,7 +6,9 @@ module AllTweetsMustDie
     include ArgumentValidator
   
     attr_reader :default_lifetime, :username, :password
-  
+
+    HASHTAG_PATTERN = /#keep((\d+)h)?$/
+    
     # a TweetKiller can kill many tweets, i.e. it is initialized once and processes a list of tweets with handle_tweet
     def initialize(options = {})
       validate_args!([:default_lifetime, :username, :password], options)
@@ -22,7 +24,7 @@ module AllTweetsMustDie
       
     def tweet_should_live?(tweet, default_lifetime)
       @tweet = tweet
-      hashtag = tweet.text.match(/#keep((\d+)h)?$/)
+      hashtag = tweet.text.match(HASHTAG_PATTERN)
       hashtag ? handle_with_hashtag(hashtag) : handle_without_hashtag(default_lifetime)
     end
     

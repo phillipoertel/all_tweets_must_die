@@ -14,15 +14,17 @@ module AllTweetsMustDie
   class Runner
       
     include ArgumentValidator
+    
+    attr_reader :handlers
 
     def initialize(options)
       validate_args!([:username, :password], options)
       @username = options[:username]
       @password = options[:password]
+      @handlers ||= [TweetKiller.new(:username => @username, :password => @password)]
     end
     
     def add_handler(handler)
-      @handlers ||= []
       @handlers << handler
     end
     

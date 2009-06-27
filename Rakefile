@@ -29,7 +29,6 @@ task :run do
   Dir.glob('lib/*.rb').each { |file| require file }
   include AllTweetsMustDie
   runner = Runner.new(:username => @login[:user], :password => @login[:password])
-  runner.add_handler(TweetKiller.new(:username => @login[:user], :password => @login[:password]))
   runner.run!
 end
 
