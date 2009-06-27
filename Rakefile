@@ -22,11 +22,14 @@ task :rcov do
   sh "rcov test/*test.rb --sort=coverage"
 end
 
+desc "runs the registered handlers on the users timeline"
 task :run do
   require 'rubygems'
   require 'login'
   Dir.glob('lib/*.rb').each { |file| require file }
-  runner = AllTweetsMustDie::Runner.new(:username => @login[:user], :password => @login[:password])
+  include AllTweetsMustDie
+  runner = Runner.new(:username => @login[:user], :password => @login[:password])
+  runner.add_handler(TweetKiller.new(:username => @login[:user], :password => @login[:password]))
   runner.run!
 end
 
