@@ -1,7 +1,5 @@
 # Introduction
 
-Hi there!
-
 This library kills twitter messages of a given user once they are older than a certain age.
 
 The default `TweetHandler` will delete all tweets older than 12 hours, which can be modified by adding a hashtag like `#keep24h` (keeps it 24 hours) or just `#keep` (doesn't delete tweet at all) to the tweet.
