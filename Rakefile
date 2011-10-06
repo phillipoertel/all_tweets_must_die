@@ -53,7 +53,7 @@ namespace :run do
 end
 
 desc "deploy the application via rsync. specify to where with an instance variable @rsync_upload_uri."
-task :deploy do
+task :release do
   require 'login'
   sh "rsync -r --exclude-from=.gitignore . #{@rsync_upload_uri}"
 end
