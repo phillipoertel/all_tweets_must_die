@@ -11,18 +11,18 @@ class RunTest < Test::Unit::TestCase
   def test_request_the_correct_users_timeline_when_updates_are_protected
     url = "http://noradio:foo@twitter.com/statuses/user_timeline/noradio.json"
     RestClient.expects(:get).with(url).returns("{}")
-    Runner.new(:username => 'noradio', :password => 'foo').run!
+    Runner.new.run!
   end
   
   def test_request_the_correct_users_timeline_when_updates_are_public
     url = "http://twitter.com/statuses/user_timeline/noradio.json"
     RestClient.expects(:get).with(url).returns("{}")
-    Runner.new(:username => 'noradio').run!
+    Runner.new.run!
   end
   
   def test_should_process_all_tweets_in_timeline
     RestClient.stubs(:get).returns(noradios_tweets_as_json)
-    runner = Runner.new(:username => 'noradio')
+    runner = Runner.new
     TweetKiller.any_instance.expects(:handle_tweet!).times(20)
     runner.run!
   end
@@ -35,7 +35,7 @@ class RunTest < Test::Unit::TestCase
     
     RestClient.stubs(:get).returns(noradios_tweets_as_json)
     Tweet.any_instance.expects(:kill!).times(19) # 20 tweets in fixture. all but the latest tweets are older than 12h.
-    Runner.new(:username => 'noradio').run!
+    Runner.new.run!
   end
 end
 
@@ -44,7 +44,7 @@ class AddHandlerTest < Test::Unit::TestCase
   include AllTweetsMustDie
 
   def test_should_have_tweet_killer_as_default_handler
-    runner = Runner.new(:username => 'noradio')
+    runner = Runner.new
     assert_equal TweetKiller, runner.handlers.first.class
     assert_equal 1, runner.handlers.size
   end
@@ -52,14 +52,14 @@ class AddHandlerTest < Test::Unit::TestCase
   def test_should_accept_different_handlers_on_init
     some_handler = mock('Foo')
     some_handler.expects(:handle_tweet!).times(20)
-    runner = Runner.new(:username => 'noradio', :handlers => [some_handler])
+    runner = Runner.new(:handlers => [some_handler])
     assert_equal Mocha::Mock, runner.handlers.first.class
     assert_equal 1, runner.handlers.size
     runner.run!
   end
 
   def test_should_add_tweet_handlers
-    runner = Runner.new(:username => 'noradio')
+    runner = Runner.new
     assert_equal 1, runner.handlers.size
     runner.add_handler(stub(:handle_tweet! => nil)) # at the moment, this could be anything, interface is not checked.
     assert_equal 2, runner.handlers.size

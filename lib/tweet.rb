@@ -6,22 +6,20 @@ module AllTweetsMustDie
   
     def initialize(data)
       @data = data
-      @data['created_at'] = Time.parse(@data['created_at'])
+      @data.created_at = Time.parse(@data.created_at)
     end
     
-    def kill!(password)
-      http_auth_string = "#{@data['user']['screen_name']}:#{password}@"
-      url = "http://%stwitter.com/statuses/destroy/%d.xml" % [http_auth_string, @data['id']]
-      RestClient.delete(url)
+    def kill!
+      Twitter.status_destroy(@data.id)
     end
     
     # in seconds
     def age
-      Time.now.utc - @data['created_at']
+      Time.now.utc - @data.created_at
     end
 
     def text
-      @data['text']
+      @data.text
     end
     
   end

@@ -5,20 +5,18 @@ module AllTweetsMustDie
     
     include ArgumentValidator
   
-    attr_reader :default_lifetime, :username, :password
+    attr_reader :default_lifetime
 
     # a TweetKiller can kill many tweets, i.e. it is initialized once and processes a list of tweets with handle_tweet
     def initialize(options = {})
-      validate_args!([:default_lifetime, :username, :password], options)
-      @default_lifetime = options[:default_lifetime] || 12 # maximum allowed age in hours
-      @username = options[:username]
-      @password = options[:password]
+      validate_args!([:default_lifetime], options)
+      @default_lifetime = options[:default_lifetime] || 2 # maximum allowed age in hours
     end
     
     # the external interface
     def handle_tweet!(tweet)
       should_live = tweet_should_live?(tweet, @default_lifetime)
-      tweet.kill!(@password) unless should_live
+      tweet.kill! unless should_live
       puts "tweet #{tweet.text[0, 20]}... should live? #{should_live}" if (ENV['VERBOSE'])
     end
       

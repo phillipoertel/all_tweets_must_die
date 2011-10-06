@@ -1,3 +1,6 @@
+require 'rubygems'
+require 'twitter'
+require 'login'
 require 'rake/testtask'
 
 task :default => [:'test:all']
@@ -21,21 +24,19 @@ end
 namespace :run do
 
   task :init do
-    require 'rubygems'
-    require 'login'
     Dir.glob('lib/*.rb').each { |file| require file }
     include AllTweetsMustDie
   end
 
   desc "runs only the killer"
   task :killer => [:init] do
-    runner = Runner.new(:username => @login[:user], :password => @login[:password])
+    runner = Runner.new
     runner.run!
   end
 
   desc "runs only the DSL-handlers"
   task :dsl => [:init] do
-    @runner = Runner.new(:username => @login[:user], :password => @login[:password], :handlers => [])
+    @runner = Runner.new(:handlers => [])
     # add the handlers from DSL
     require 'dsl/handlers'
     @runner.run!
@@ -43,7 +44,7 @@ namespace :run do
 
   desc "runs both the killer and the DSL-handlers"
   task :all => [:init] do
-    @runner = Runner.new(:username => @login[:user], :password => @login[:password])
+    @runner = Runner.new
     # add the handlers from DSL
     require 'dsl/handlers'
     @runner.run!
