@@ -42,7 +42,7 @@ module AllTweetsMustDie
     private
     
       def fetch_tweets
-        options = {:count => 100, :trim_user => true, :include_rts => true}
+        options = {:count => 50, :trim_user => true, :include_rts => true}
         timeline = Twitter.user_timeline(Twitter.user.screen_name, options)
         timeline.map { |data| Tweet.new(data) }
       end

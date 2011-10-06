@@ -10,7 +10,7 @@ module AllTweetsMustDie
     # a TweetKiller can kill many tweets, i.e. it is initialized once and processes a list of tweets with handle_tweet
     def initialize(options = {})
       validate_args!([:default_lifetime], options)
-      @default_lifetime = options[:default_lifetime] || 2 # maximum allowed age in hours
+      @default_lifetime = options[:default_lifetime] || 24 # maximum allowed age in hours
     end
     
     # the external interface
