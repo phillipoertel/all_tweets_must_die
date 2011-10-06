@@ -9,8 +9,8 @@ namespace :test do
 
   desc "run all tests"
   Rake::TestTask.new(:all) do |t|
-      t.test_files = FileList['test/**/*_test.rb']
-      t.verbose = true
+    t.test_files = FileList['test/**/*_test.rb']
+    t.verbose = true
   end
 
   desc "run all tests test with coverage report generation"
