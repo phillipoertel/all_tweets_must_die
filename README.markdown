@@ -1,17 +1,14 @@
 # Introduction
 
-This library kills twitter messages of a given user once they are older than a certain age.
+This library deletes your tweets after some time. The default ist 12 hours, but you can chance this by adding a hashtag like `#keep24h` (keeps it 24 hours) to your tweet. Just adding `#keep` will keep the tweet forever.
 
-The default `TweetHandler` will delete all tweets older than 12 hours, which can be modified by adding a hashtag like `#keep24h` (keeps it 24 hours) or just `#keep` (doesn't delete tweet at all) to the tweet.
+There are some beginnings of other `TweetHandlers` in the code. The ideas is that you write a simple Ruby class that will be applied to tweet on your timeline. Some examples are: automatically blogging all your tweets tagged with `#blog`, doing something else with the hashtag `#quote`, and so on. See  `dsl/handlers.rb` for how this works.
 
-The library also lets you write custom `TweetHandlers`, so it you can do whatever you want with the tweets on your timeline. Examples: automatically blogging all your tweets tagged with `#blog`, doing something else with the hashtag `#quote`, and so on. See  `dsl/handlers.rb` for how this works.
-
-
-Then use `rake run:dsl` to execute the handlers on your timeline.
+Then use `rake run:dsl` to execute the handlers on your timeline. Of course this needs to be done periodically
 
 # Warning
 
-* I'm happy if you find this code useful, this is a private project though and it changes regularly. Use at your own risk.
+* I wrote this for myself and it isn't really built to run in different environments of preferences. See also: opinionated software :-) Use at your own risk. Hack it as you like.
 * Only 20 tweets are loaded from your timeline (this is the twitter API default). Until I add a setter, this can be hacked in `Runner#fetch_tweets`.
 * When running periodically, it does not remember which tweets were already processed. So tweets will be processed again in the next run, if if you don't delete tweets after processing.
 
@@ -22,14 +19,14 @@ Type `rake -T run` to see what's available.
 
 # Installation
 
-### To use the rake tasks, create a file called login.rb in the root and add
+### The library doesn't use OAuth, so it needs to be configured with your login credentials. So to use the rake tasks, create a file called login.rb in the root and add
 
   @login = {
     :user     => 'your_twitter_username',
     :password => 'your_twitter_password'
   }
   
-if you want to use rake deploy, add the following to login.rb (requires rsync and ssh access)
+if you want to use `rake deploy`, add the following to login.rb (requires rsync and ssh access)
 
   @rsync_upload_uri = 'ssh-username@servername:/directory/on/server'
 
@@ -40,7 +37,7 @@ The rake task starts the `Runner` with a username and loads all tweets. Each twe
 
 # TODOS
 
-* clean up DSL and make it more flexible (need to read a bit)
+* clean up DSL and make it more flexible 
 * rewrite the original #keep-handlers to be DSL-based instead of code-based, then throw out the add_handler method
 * fix gem (require problem)
 * require all needed files centrally, fixing the somewhat hacky requiring everywhere (what's the common ruby practise?)
